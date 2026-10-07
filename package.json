@@ -1,6 +1,6 @@
 {
   "name": "@davoudnsr/grasp-cli",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Who actually understands your code? Maps your team's current understanding of each module from GitHub history and flags the ones nobody understands anymore.",
   "keywords": [
     "code-ownership",

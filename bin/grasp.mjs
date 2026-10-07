@@ -25,10 +25,12 @@ const PKG = JSON.parse(readFileSync(join(ROOT, 'package.json'), 'utf8'));
 const HELP = `grasp ${PKG.version} — who actually understands your code?
 
 Usage
-  grasp analyze <owner/repo> [options]   Map current understanding from GitHub history
+  grasp analyze [owner/repo] [options]   Map current understanding from GitHub history
   grasp demo [--open]                    Run the engine on the built-in demo team
   grasp init [owner/repo]                Write grasp.config.json (modules, ignores, labels)
-  grasp validate <owner/repo> [options]  Step-zero check: share of big PRs approved fast
+  grasp validate [owner/repo] [options]  Step-zero check: share of big PRs approved fast
+
+Inside a clone, owner/repo can be omitted: it is read from the git "origin" remote.
 
 Options for analyze
   --open              Open the dashboard in your browser (served on localhost only)
@@ -99,8 +101,19 @@ function loadConfig(flags) {
   catch (e) { fail(`could not parse ${path}: ${e.message}`); }
 }
 
+/* owner/repo of the GitHub `origin` remote in the current directory, if any. */
+function repoFromGit() {
+  try {
+    const url = execFileSync('git', ['remote', 'get-url', 'origin'], { stdio: ['ignore', 'pipe', 'ignore'], timeout: 3000 }).toString().trim();
+    const m = /github\.com[:/]([\w.-]+)\/([\w.-]+?)(?:\.git)?\/?$/.exec(url);
+    return m ? `${m[1]}/${m[2]}` : null;
+  } catch { return null; }
+}
+
 function checkRepo(repo) {
-  if (!repo || !/^[\w.-]+\/[\w.-]+$/.test(repo)) fail('expected a repository as owner/repo (see `grasp help`)');
+  if (repo === 'owner/repo') fail('replace owner/repo with a real repository, e.g. `grasp analyze honojs/hono` — or run inside a clone and omit it');
+  if (!repo) fail('no repository given and no GitHub `origin` remote here — pass one as owner/repo (see `grasp help`)');
+  if (!/^[\w.-]+\/[\w.-]+$/.test(repo)) fail(`expected a repository as owner/repo, got "${repo}"`);
   return repo;
 }
 
@@ -143,7 +156,7 @@ async function present(data, flags) {
 
 async function cmdAnalyze(flags, pos) {
   const { config, path: configPath } = loadConfig(flags);
-  const repo = checkRepo(pos[0] || config.repo);
+  const repo = checkRepo(pos[0] || config.repo || repoFromGit());
   const months = int(flags.months, config.months || 6, 'months');
   const warmup = int(flags.warmup, config.warmupMonths || 6, 'warmup');
   const today = new Date().toISOString().slice(0, 10);
@@ -218,8 +231,14 @@ async function cmdInit(flags, pos) {
   console.log('Tip: add .grasp/ to .gitignore — it holds the local PR cache.');
 }
 
-function cmdValidate(argv) {
-  const child = spawn(process.execPath, [join(ROOT, 'tools', 'validate-github.mjs'), ...argv], { stdio: 'inherit' });
+function cmdValidate(argv, flags, pos) {
+  if (!flags.selftest) {
+    const repo = checkRepo(pos[0] || repoFromGit());
+    if (!pos[0]) argv = [repo, ...argv];
+  }
+  const env = { ...process.env, GRASP_CLI: '1' };
+  if (!env.GITHUB_TOKEN) env.GITHUB_TOKEN = resolveToken(flags);
+  const child = spawn(process.execPath, [join(ROOT, 'tools', 'validate-github.mjs'), ...argv], { stdio: 'inherit', env });
   child.on('exit', code => process.exit(code ?? 1));
 }
 
@@ -238,7 +257,7 @@ try {
   else if (cmd === 'analyze') await cmdAnalyze(flags, pos);
   else if (cmd === 'demo') await cmdDemo(flags);
   else if (cmd === 'init') await cmdInit(flags, pos);
-  else if (cmd === 'validate') cmdValidate(argv.slice(1));
+  else if (cmd === 'validate') cmdValidate(argv.slice(1), flags, pos);
   else fail(`unknown command "${cmd}" (see \`grasp help\`)`);
 } catch (err) {
   if (process.stderr.isTTY) process.stderr.write('\n');

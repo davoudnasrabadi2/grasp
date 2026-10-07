@@ -107,7 +107,7 @@ if (argv.includes('--selftest')) selftest();
 
 if (!argv.includes('--selftest')) {
   if (!repoArg || !/^[^\/]+\/[^\/]+$/.test(repoArg)) {
-    console.error('Usage: node tools/validate-github.mjs owner/repo [--since=YYYY-MM-DD] [--min-lines=800] [--max-minutes=60] [--max-prs=200] [--json=out.json]\n       (or --selftest to verify the aggregation logic offline)');
+    console.error((process.env.GRASP_CLI ? 'Usage: grasp validate' : 'Usage: node tools/validate-github.mjs') + ' owner/repo [--since=YYYY-MM-DD] [--min-lines=800] [--max-minutes=60] [--max-prs=200] [--json=out.json]\n       (or --selftest to verify the aggregation logic offline)');
     process.exit(1);
   }
 
@@ -212,7 +212,8 @@ if (!argv.includes('--selftest')) {
     }
   } catch (err) {
     console.error('\nError: ' + err.message);
-    console.error('If your network blocks api.github.com, run the offline check: node tools/validate-github.mjs --selftest');
+    console.error('If your network blocks api.github.com, run the offline check: ' +
+      (process.env.GRASP_CLI ? 'grasp validate --selftest' : 'node tools/validate-github.mjs --selftest'));
     process.exit(1);
   }
 }
