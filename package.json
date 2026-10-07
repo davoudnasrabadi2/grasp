@@ -1,0 +1,48 @@
+{
+  "name": "@davoudnsr/grasp-cli",
+  "version": "0.1.0",
+  "description": "Who actually understands your code? Maps your team's current understanding of each module from GitHub history and flags the ones nobody understands anymore.",
+  "keywords": [
+    "code-ownership",
+    "bus-factor",
+    "knowledge-distribution",
+    "ai-agents",
+    "code-review",
+    "github",
+    "engineering-metrics"
+  ],
+  "license": "MIT",
+  "author": "Davoud Nasrabadi <davoud@panto.org>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/davoudnasrabadi2/grasp.git"
+  },
+  "homepage": "https://github.com/davoudnasrabadi2/grasp#readme",
+  "bugs": {
+    "url": "https://github.com/davoudnasrabadi2/grasp/issues"
+  },
+  "bin": {
+    "grasp": "bin/grasp.mjs"
+  },
+  "files": [
+    "bin/",
+    "src/",
+    "tools/validate-github.mjs",
+    "demo.html",
+    "assets/css/",
+    "assets/js/",
+    "assets/data/demo-data.js"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.mjs && node tools/validate-github.mjs --selftest",
+    "demo": "node bin/grasp.mjs demo --open",
+    "generate-demo": "node tools/generate-demo-data.cjs",
+    "prepublishOnly": "npm test"
+  }
+}

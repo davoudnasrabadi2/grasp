@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grasp — live demo (paycore)</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230a0d13'/%3E%3Cpath d='M16 5a11 11 0 1 0 11 11' stroke='%232dd4bf' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3Ccircle cx='16' cy='16' r='4' fill='%232dd4bf'/%3E%3Ccircle cx='27' cy='16' r='2.4' fill='%232dd4bf'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/dashboard.css">
+</head>
+<body class="dash">
+
+<nav class="dash-nav">
+  <div class="container wide dash-nav-inner">
+    <a class="brand" href="index.html" style="font-size:16px">
+      <svg class="mark" style="width:22px;height:22px" viewBox="0 0 32 32"><path d="M16 5a11 11 0 1 0 11 11" stroke="#2dd4bf" stroke-width="3" fill="none" stroke-linecap="round"/><circle cx="16" cy="16" r="4" fill="#2dd4bf"/><circle cx="27" cy="16" r="2.4" fill="#2dd4bf"/></svg>
+      Grasp
+    </a>
+    <div class="dash-meta" id="dashMeta">
+      <span class="badge">demo</span>
+      <span class="repo">paycore</span>
+      <span>· Northwind Payments · 6 engineers · 9 modules</span>
+    </div>
+    <div class="tabs" id="tabs">
+      <button data-view="manager" class="active">Manager view</button>
+      <button data-view="person">My view</button>
+      <button data-view="feed">Signal feed</button>
+      <button data-view="about">How it works</button>
+    </div>
+    <span class="privacy-pill">🔒 aggregate view — individual scores are private</span>
+  </div>
+</nav>
+
+<main class="container wide" style="padding-bottom:80px">
+
+  <!-- ================= MANAGER VIEW ================= -->
+  <section id="view-manager">
+    <div class="demo-banner" id="demoBanner">
+      <strong>Simulated team, real engine.</strong>
+      <span>The people, repo and 12 months of history below are generated — every score, alert and trend is computed live by the same passive-signal engine the product would run.</span>
+    </div>
+
+    <div class="scrubber">
+      <label for="timeSlider" id="timeSliderLabel">◀ Replay 12 months</label>
+      <input type="range" id="timeSlider" min="0" max="12" step="1" value="12">
+      <span class="when" id="timeLabel">Now</span>
+    </div>
+
+    <div class="kpis" id="kpis"></div>
+
+    <div class="dash-grid">
+      <div class="panel">
+        <h3>Understanding coverage heatmap</h3>
+        <p class="panel-sub">Rows: modules (dot = criticality). Columns: month-end coverage — how many people currently understand each module. Click any row for the module view. Dimmed cells are after the replay date.</p>
+        <div class="heat" id="heatmap"></div>
+        <div class="legend" style="margin-top:12px">
+          <span><span class="sw c0"></span>orphaned (0)</span>
+          <span><span class="sw c1"></span>fragile (1)</span>
+          <span><span class="sw c2"></span>covered (2)</span>
+          <span><span class="sw c3"></span>strong (3+)</span>
+        </div>
+      </div>
+      <div class="panel">
+        <h3>Alerts</h3>
+        <p class="panel-sub" id="alertsSub">Ranked by severity × module criticality × incident history.</p>
+        <div id="alerts"></div>
+      </div>
+    </div>
+
+    <div class="panel report">
+      <div class="report-grid">
+        <div>
+          <h3 id="reportTitle">Weekly report</h3>
+          <p class="panel-sub" id="reportHeadline"></p>
+          <div class="report-stats" id="reportStats"></div>
+          <p style="font-size:13px; color:var(--faint); margin:0 0 6px">Suggested actions this week</p>
+          <ul class="report-actions" id="reportActions"></ul>
+        </div>
+        <div class="spark-wrap">
+          <p style="font-size:12px; color:var(--faint); margin:0 0 6px">Total understanding coverage across all modules</p>
+          <div id="reportSpark"></div>
+          <p style="font-size:12px; color:var(--faint);" id="sparkCaption">12 months · the cliff is the agent-adoption era</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= PERSON VIEW ================= -->
+  <section id="view-person" style="display:none">
+    <div class="privacy-note">
+      <span>🔒</span>
+      <span><strong>Private view.</strong> These scores are visible only to the person signed in. Managers and teammates see module-level aggregates only — this data never leaves the individual's screen.</span>
+    </div>
+    <div class="person-chips" id="personChips"></div>
+    <div class="person-grid">
+      <div class="panel">
+        <h3 id="personTitle">Your understanding profile</h3>
+        <p class="panel-sub">Estimated current understanding per module. The tick marks the "current understanding" threshold (55). Scores decay with time and erode when agents rewrite a module.</p>
+        <div id="personBars"></div>
+      </div>
+      <div>
+        <div class="panel oncall-card" id="oncallCard" style="margin-bottom:16px"></div>
+        <div class="panel" id="tourCard">
+          <span class="badge accent">guided tour · phase-2 preview</span>
+          <h3 style="margin-top:10px">Interactive review — try it</h3>
+          <p class="panel-sub">This is what Grasp offers after a heavy agent PR: a 2-minute walkthrough with a prediction question. Nothing here is ever scored or recorded.</p>
+          <div id="tourBody"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FEED VIEW ================= -->
+  <section id="view-feed" style="display:none">
+    <div class="panel" style="margin-top:18px">
+      <h3>Raw signal feed</h3>
+      <p class="panel-sub">The events the engine actually consumes, with the flags it derives. This transparency is the product: no black box, no activity metrics — only signals that plausibly relate to understanding.</p>
+      <div class="feed-filters" id="feedFilters"></div>
+      <div style="overflow-x:auto">
+        <table class="feed">
+          <thead>
+            <tr><th>Date</th><th>Signal</th><th>Module</th><th>Detail</th><th>Flags</th></tr>
+          </thead>
+          <tbody id="feedBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ABOUT VIEW ================= -->
+  <section id="view-about" style="display:none">
+    <div class="grid-2" style="margin-top:18px">
+      <div class="panel">
+        <h3>The scoring model, in the open</h3>
+        <p class="panel-sub">Every credit the engine can give, with its weight. Weights are deliberately interpretable — this table ships with the product so teams can audit what "understanding" means.</p>
+        <table class="weights-table" id="weightsTable"></table>
+        <p style="font-size:13px; color:var(--muted); margin-top:14px">
+          Scores decay with a <strong style="color:var(--text)">150-day half-life</strong>. "Current understanding" = score ≥ <strong style="color:var(--text)">55</strong>.
+          When an agent rewrites a fraction <em>f</em> of a module, everyone's score on it is multiplied by
+          <strong style="color:var(--text)">(1 − 0.8·f)</strong> — the version they knew is gone.
+        </p>
+      </div>
+      <div>
+        <div class="panel" style="margin-bottom:16px">
+          <h3>What is deliberately not counted</h3>
+          <p>Lines of code, commit counts, commit streaks, review counts as volume. Anything that can be farmed without comprehension is excluded — activity metrics measure effort, not understanding, and incentivize the wrong behavior.</p>
+        </div>
+        <div class="panel" style="margin-bottom:16px">
+          <h3>Privacy model</h3>
+          <p>Individual scores are visible only to the individual. Everything in the Manager view is aggregate: coverage counts per module, trends, alerts. There is no per-person report, no leaderboard, no export of individual levels. In the real product this is enforced server-side; in this demo it's enforced by the UI — same principle.</p>
+        </div>
+        <div class="panel">
+          <h3>Honesty box</h3>
+          <p>Understanding cannot be measured directly. Every signal is a proxy with failure modes; Grasp is a <strong style="color:var(--text)">risk indicator</strong>, not a mind reader. The weekly report is designed to start conversations, not end them.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- module modal -->
+<div class="modal-backdrop" id="modalBackdrop">
+  <div class="modal" id="modalContent"></div>
+</div>
+
+<script src="assets/js/signals.js"></script>
+<script src="assets/data/demo-data.js"></script>
+<script src="assets/js/demo.js"></script>
+</body>
+</html>

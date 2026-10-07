@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grasp — who actually understands your code?</title>
+<meta name="description" content="Grasp separates understanding from authorship. When agents write the code, git blame only shows who pressed the button. Grasp maps your team's current understanding and finds orphaned modules before production does.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230a0d13'/%3E%3Cpath d='M16 5a11 11 0 1 0 11 11' stroke='%232dd4bf' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3Ccircle cx='16' cy='16' r='4' fill='%232dd4bf'/%3E%3Ccircle cx='27' cy='16' r='2.4' fill='%232dd4bf'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/css/style.css?v=2">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="container wide nav-inner">
+    <a class="brand" href="index.html">
+      <svg class="mark" viewBox="0 0 32 32"><path d="M16 5a11 11 0 1 0 11 11" stroke="#2dd4bf" stroke-width="3" fill="none" stroke-linecap="round"/><circle cx="16" cy="16" r="4" fill="#2dd4bf"/><circle cx="27" cy="16" r="2.4" fill="#2dd4bf"/></svg>
+      Grasp
+    </a>
+    <div class="nav-links">
+      <a href="#why">Why now</a>
+      <a href="#signals">Signals</a>
+      <a href="#model">Model</a>
+      <a href="#privacy">Privacy</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+      <a class="btn primary small" href="demo.html">Open live demo</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============================== HERO ============================== -->
+<header class="hero">
+  <div class="container">
+    <h1>If this breaks tomorrow, <span class="q">who actually understands it?</span></h1>
+    <p class="lede">
+      Grasp separates <strong>understanding</strong> from <strong>authorship</strong>.
+      When agents write the code, <code>git blame</code> only shows who pressed the button.
+      Grasp maps your team's <em>current</em> understanding across the codebase — and flags the
+      modules nobody understands anymore, <strong>before production finds out</strong>.
+    </p>
+    <div class="hero-ctas">
+      <a class="btn primary" href="demo.html">See the live demo →</a>
+      <a class="btn" href="#validate">Validate the idea on your own repo</a>
+    </div>
+    <p class="hero-note">The demo runs Grasp's real scoring engine on 12 months of simulated team history. No signup, nothing leaves your browser.</p>
+
+    <div class="hero-visual">
+      <div class="frame">
+        <div class="frame-head"><span class="dot"></span> paycore — understanding coverage, last 12 months (live demo data)</div>
+        <div class="heat">
+          <div class="hrow"><span class="hlabel"></span><span class="hmonth">Nov</span><span class="hmonth">Dec</span><span class="hmonth">Jan</span><span class="hmonth">Feb</span><span class="hmonth">Mar</span><span class="hmonth">Apr</span><span class="hmonth">May</span><span class="hmonth">Jun</span><span class="hmonth">Jul</span><span class="hmonth">Aug</span><span class="hmonth">Sep</span><span class="hmonth">Now</span></div>
+          <div class="hrow"><span class="hlabel">Payments</span><i class="hcell c2"></i><i class="hcell c2"></i><i class="hcell c3"></i><i class="hcell c3"></i><i class="hcell c3"></i><i class="hcell c3"></i><i class="hcell c3"></i><i class="hcell c3"></i><i class="hcell c3"></i><i class="hcell c3"></i><i class="hcell c1"></i><i class="hcell c0"></i></div>
+          <div class="hrow"><span class="hlabel">Ledger</span><i class="hcell c2"></i><i class="hcell c2"></i><i class="hcell c3"></i><i class="hcell c3"></i><i class="hcell c3"></i><i class="hcell c3"></i><i class="hcell c0"></i><i class="hcell c0"></i><i class="hcell c0"></i><i class="hcell c0"></i><i class="hcell c0"></i><i class="hcell c0"></i></div>
+          <div class="hrow"><span class="hlabel">Risk Engine</span><i class="hcell c3"></i><i class="hcell c3"></i><i class="hcell c3"></i><i class="hcell c3"></i><i class="hcell c3"></i><i class="hcell c3"></i><i class="hcell c1"></i><i class="hcell c2"></i><i class="hcell c2"></i><i class="hcell c2"></i><i class="hcell c2"></i><i class="hcell c2"></i></div>
+          <div class="hrow"><span class="hlabel">Auth</span><i class="hcell c1"></i><i class="hcell c1"></i><i class="hcell c2"></i><i class="hcell c2"></i><i class="hcell c2"></i><i class="hcell c2"></i><i class="hcell c2"></i><i class="hcell c2"></i><i class="hcell c2"></i><i class="hcell c2"></i><i class="hcell c2"></i><i class="hcell c2"></i></div>
+          <div class="hrow"><span class="hlabel">Webhooks</span><i class="hcell c1"></i><i class="hcell c1"></i><i class="hcell c1"></i><i class="hcell c1"></i><i class="hcell c1"></i><i class="hcell c1"></i><i class="hcell c1"></i><i class="hcell c0"></i><i class="hcell c0"></i><i class="hcell c0"></i><i class="hcell c1"></i><i class="hcell c1"></i></div>
+          <div class="hrow"><span class="hlabel">Ingest</span><i class="hcell c1"></i><i class="hcell c1"></i><i class="hcell c1"></i><i class="hcell c1"></i><i class="hcell c1"></i><i class="hcell c1"></i><i class="hcell c1"></i><i class="hcell c1"></i><i class="hcell c0"></i><i class="hcell c0"></i><i class="hcell c0"></i><i class="hcell c1"></i></div>
+          <div class="hrow"><span class="hlabel">Billing</span><i class="hcell c1"></i><i class="hcell c2"></i><i class="hcell c2"></i><i class="hcell c2"></i><i class="hcell c2"></i><i class="hcell c1"></i><i class="hcell c1"></i><i class="hcell c1"></i><i class="hcell c1"></i><i class="hcell c2"></i><i class="hcell c1"></i><i class="hcell c1"></i></div>
+          <div class="hrow"><span class="hlabel">Admin UI</span><i class="hcell c1"></i><i class="hcell c1"></i><i class="hcell c1"></i><i class="hcell c1"></i><i class="hcell c1"></i><i class="hcell c1"></i><i class="hcell c0"></i><i class="hcell c0"></i><i class="hcell c0"></i><i class="hcell c0"></i><i class="hcell c1"></i><i class="hcell c1"></i></div>
+          <div class="hrow"><span class="hlabel">Notifications</span><i class="hcell c2"></i><i class="hcell c2"></i><i class="hcell c2"></i><i class="hcell c3"></i><i class="hcell c2"></i><i class="hcell c2"></i><i class="hcell c1"></i><i class="hcell c1"></i><i class="hcell c1"></i><i class="hcell c2"></i><i class="hcell c1"></i><i class="hcell c0"></i></div>
+        </div>
+        <div class="legend">
+          <span><span class="sw c0"></span>orphaned (0 people)</span>
+          <span><span class="sw c1"></span>fragile (1)</span>
+          <span><span class="sw c2"></span>covered (2)</span>
+          <span><span class="sw c3"></span>strong (3+)</span>
+          <span style="margin-left:auto">— the two red rows at the right edge are the story</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ============================== WHY NOW ============================== -->
+<section id="why">
+  <div class="container">
+    <p class="section-kicker">Why now</p>
+    <h2>git blame answers a question nobody is asking anymore</h2>
+    <p class="section-sub">
+      Tools that measure knowledge distribution and bus factor already exist — but they all rest on an old
+      assumption: <strong>whoever wrote the code understands it.</strong> That assumption just broke.
+      A developer whose name sits on a 2,000-line commit may have written a prompt, watched the tests go
+      green, and merged.
+    </p>
+    <div class="grid-2">
+      <div>
+        <div class="term">
+          <div class="term-bar"><i></i><i></i><i></i></div>
+          <div class="term-body">
+            <div class="dim"># What git blame tells you</div>
+            <div><span class="hash">a3f9c2e</span> <span class="who">maya</span> — Rewrite cart normalization pipeline</div>
+            <div><span class="dim">2,340 lines changed · approved in 4 minutes · 0 review comments</span></div>
+            <div>&nbsp;</div>
+            <div class="dim"># What the commit actually contains</div>
+            <div><span class="agent">Co-Authored-By: Claude &lt;claude@anthropic.com&gt;</span></div>
+            <div><span class="agent">Generated-with: agent · 91% of diff machine-written</span></div>
+            <div>&nbsp;</div>
+            <div class="bad">blame shows who pressed the button — not who understands the code.</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <h3 style="margin-top:4px">Understanding is now a hidden, decaying asset</h3>
+        <p style="color:var(--muted); font-size:15px">
+          Three things changed at once:
+        </p>
+        <ul style="color:var(--muted); font-size:15px; line-height:1.9">
+          <li><strong style="color:var(--text)">Agents write a large share of diffs</strong> — authorship no longer implies comprehension.</li>
+          <li><strong style="color:var(--text)">Review is becoming a rubber stamp</strong> — big PRs get approved in minutes, so the reviewer learns nothing either.</li>
+          <li><strong style="color:var(--text)">Agent rewrites silently erase what people knew</strong> — the version your teammate understood no longer exists.</li>
+        </ul>
+        <p style="color:var(--muted); font-size:15px">
+          The result is <strong style="color:var(--text)">understanding debt</strong>: live, green, deployed code that no human can confidently change or debug. It's invisible until the 3 a.m. incident.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== SIGNALS ============================== -->
+<section id="signals">
+  <div class="container">
+    <p class="section-kicker">How Grasp measures understanding</p>
+    <h2>Passive first. Almost everything is observed, not asked.</h2>
+    <p class="section-sub">
+      If a tool has to keep quizzing people to work, it fails. Grasp reads the signals your workflow
+      already produces — no surveys, no interruptions, no self-reporting.
+    </p>
+    <div class="sig-grid">
+      <div class="card sig-card">
+        <span class="num">01</span>
+        <span class="card-icon">✍️</span>
+        <h3>Meaningful post-agent edits</h3>
+        <p>Who deliberately edited the agent's output afterwards. A hands-on, targeted change is the strongest evidence of real engagement with the code.</p>
+      </div>
+      <div class="card sig-card">
+        <span class="num">02</span>
+        <span class="card-icon">💬</span>
+        <h3>Substantive reviews</h3>
+        <p>Reviews with actual content, versus drive-by approvals. Comment depth and question quality reveal who is really reasoning about the change.</p>
+      </div>
+      <div class="card sig-card">
+        <span class="num">03</span>
+        <span class="card-icon">⏱️</span>
+        <h3>Review time vs. change size</h3>
+        <p>One of the strongest signals: a 2,000-line PR approved in 40 seconds was almost certainly not read. Time-to-approve scaled against diff size flags rubber-stamping.</p>
+      </div>
+      <div class="card sig-card">
+        <span class="num">04</span>
+        <span class="card-icon">🔥</span>
+        <h3>Incident response</h3>
+        <p>Who found and fixed the bug in that area during a production incident. Nothing builds — or proves — understanding like debugging under pressure.</p>
+      </div>
+      <div class="card sig-card">
+        <span class="num">05</span>
+        <span class="card-icon">🤖</span>
+        <h3>Agent-authored detection</h3>
+        <p>Which changes were machine-written, inferred from commit trailers (<code>Co-Authored-By</code>), PR labels, branch names, and bot accounts — zero configuration.</p>
+      </div>
+      <div class="card sig-card">
+        <span class="num">06</span>
+        <span class="card-icon">🧭</span>
+        <h3>Natural erosion</h3>
+        <p>Time passes. People change teams, context fades. Understanding has a half-life, and Grasp decays it honestly instead of pretending last year's knowledge is current.</p>
+      </div>
+    </div>
+    <div class="sig-grid" style="margin-top:18px">
+      <div class="card sig-card soon">
+        <span class="badge soon-tag">phase 2</span>
+        <span class="card-icon">🧪</span>
+        <h3>Interactive review tours</h3>
+        <p>After heavy agent PRs, a 3-step guided walkthrough with a prediction question — "what does this return for an empty cart?". Wrong answers cost nothing; they just explain.</p>
+      </div>
+      <div class="card sig-card soon">
+        <span class="badge soon-tag">phase 2</span>
+        <span class="card-icon">🗣️</span>
+        <h3>Explain in your own words</h3>
+        <p>Write one sentence about what a change does; an LLM compares it against the code's actual behavior. A cheap, honest check of mental models.</p>
+      </div>
+      <div class="card" style="border-color:rgba(45,212,191,.35)">
+        <span class="card-icon">🧮</span>
+        <h3>What Grasp deliberately does <em>not</em> count</h3>
+        <p>Lines of code. Commit counts. Green checkmarks. Activity metrics measure effort, not understanding — and incentivize the wrong behavior.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== MODEL ============================== -->
+<section id="model">
+  <div class="container">
+    <p class="section-kicker">The model</p>
+    <h2>A number per person × module, with two properties old tools never had</h2>
+    <p class="section-sub">
+      Grasp estimates an understanding level for every (person, module) pair — a weighted blend of the
+      signals above. Two mechanisms make it reflect reality:
+    </p>
+    <div class="model-grid">
+      <div class="card model-card">
+        <h3>⏳ Half-life: understanding decays with time</h3>
+        <svg viewBox="0 0 300 110" preserveAspectRatio="none">
+          <line x1="10" y1="100" x2="290" y2="100" stroke="#2b3446" stroke-width="1"/>
+          <line x1="10" y1="10" x2="10" y2="100" stroke="#2b3446" stroke-width="1"/>
+          <path d="M10,15 C80,18 140,55 290,92" fill="none" stroke="#2dd4bf" stroke-width="2.5"/>
+          <line x1="150" y1="10" x2="150" y2="100" stroke="#2b3446" stroke-dasharray="3 4"/>
+          <text x="156" y="24" fill="#6b7590" font-size="11" font-family="monospace">half-life</text>
+          <text x="240" y="94" fill="#f87171" font-size="11" font-family="monospace">a year later</text>
+        </svg>
+        <p>Someone who knew a module well a year ago knows today's version less well. Scores decay with a configurable half-life — knowledge isn't a badge, it's a memory.</p>
+      </div>
+      <div class="card model-card">
+        <h3>🌊 Erosion: agent rewrites erase everyone's understanding</h3>
+        <svg viewBox="0 0 300 110" preserveAspectRatio="none">
+          <line x1="10" y1="100" x2="290" y2="100" stroke="#2b3446" stroke-width="1"/>
+          <path d="M10,25 L150,28 L150,75 L290,78" fill="none" stroke="#f87171" stroke-width="2.5"/>
+          <line x1="150" y1="10" x2="150" y2="100" stroke="#2b3446" stroke-dasharray="3 4"/>
+          <text x="90" y="18" fill="#6b7590" font-size="11" font-family="monospace">known version</text>
+          <text x="158" y="70" fill="#f87171" font-size="11" font-family="monospace">agent rewrite</text>
+        </svg>
+        <p>When an agent rewrites a large part of a module, everyone's understanding drops — the version they knew is gone. Coverage falls even though nobody did anything wrong.</p>
+      </div>
+      <div class="card model-card">
+        <h3>🎯 Coverage: how many people get the current version?</h3>
+        <svg viewBox="0 0 300 110" preserveAspectRatio="none">
+          <line x1="10" y1="100" x2="290" y2="100" stroke="#2b3446" stroke-width="1"/>
+          <rect x="40" y="55" width="30" height="45" rx="3" fill="#0f766e"/>
+          <rect x="90" y="30" width="30" height="70" rx="3" fill="#0f766e"/>
+          <rect x="140" y="45" width="30" height="55" rx="3" fill="#047857"/>
+          <rect x="190" y="70" width="30" height="30" rx="3" fill="#b45309"/>
+          <rect x="240" y="95" width="30" height="5" rx="2" fill="#dc2626"/>
+          <text x="236" y="86" fill="#f87171" font-size="11" font-family="monospace">0</text>
+        </svg>
+        <p>Per module: how many people hold <em>current, sufficient</em> understanding of the version that is actually deployed. That single number drives the whole map.</p>
+      </div>
+      <div class="card model-card" style="border-color:rgba(248,113,113,.4)">
+        <h3>👻 Orphaned: live code, zero minds</h3>
+        <svg viewBox="0 0 300 110" preserveAspectRatio="none">
+          <rect x="30" y="30" width="240" height="70" rx="6" fill="#151b27" stroke="#dc2626" stroke-dasharray="5 4"/>
+          <text x="80" y="60" fill="#f87171" font-size="13" font-family="monospace">module: alive</text>
+          <text x="80" y="82" fill="#f87171" font-size="13" font-family="monospace">minds:   0</text>
+        </svg>
+        <p>When coverage hits zero, the module is orphaned: it compiles, it ships, it serves traffic — and nobody can confidently debug it. Orphaned × business-critical × incident history = your risk queue.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== TECH LEAD VIEW ============================== -->
+<section id="map">
+  <div class="container">
+    <p class="section-kicker">For the tech lead</p>
+    <h2>A heatmap of what your team actually understands</h2>
+    <p class="section-sub">
+      The main view is a heatmap of your codebase: orphaned and fading modules in red, with trend lines —
+      is understanding debt growing or shrinking? Alerts are specific and actionable, not vibes:
+    </p>
+    <div class="grid-2">
+      <blockquote class="callout">
+        <p class="quote">"Payments is orphaned. 3 large agent-authored PRs (+5,650 lines) merged in the last 3 weeks, rewriting ~68% of the module. Coverage is now 0. Two production incidents in the past 6 months."</p>
+        <p class="src">— a real alert generated by this demo's engine. Orphaned × criticality × incident history is what makes prioritization meaningful.</p>
+      </blockquote>
+      <div>
+        <ul style="color:var(--muted); font-size:15px; line-height:2">
+          <li><strong style="color:var(--text)">Trend, not snapshot</strong> — see debt accumulating month by month, module by module.</li>
+          <li><strong style="color:var(--text)">Weekly report</strong> — the three risks that matter and the actions that address them.</li>
+          <li><strong style="color:var(--text)">Merge-path flags</strong> — "66% of lines merged into Payments in the last 30 days were rubber-stamped."</li>
+          <li><strong style="color:var(--text)">On-call handoff</strong> — brief the incoming rotation on the stale parts of their zone.</li>
+        </ul>
+        <a class="btn" href="demo.html">Explore the manager view →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== ENGINEERS ============================== -->
+<section id="engineers">
+  <div class="container">
+    <p class="section-kicker">For engineers</p>
+    <h2>A tutor, not a judge</h2>
+    <p class="section-sub">
+      If the tool only ever ranks people, people will game it. Grasp's engineer-facing experience is built
+      to be useful <em>to</em> the engineer — the score you see is yours alone, and every prompt leads to
+      something that helps.
+    </p>
+    <div class="grid-2">
+      <div class="card">
+        <span class="badge blue" style="margin-bottom:12px">before your on-call shift</span>
+        <h3 style="margin-top:10px">"Two modules in tonight's zone have gone stale on you"</h3>
+        <p style="margin-bottom:14px">Webhooks was rewritten by an agent in June and you haven't touched it since. Ledger's posting pipeline was rewritten entirely. Want a 10-minute refresher on either?</p>
+        <div style="display:flex; gap:10px; flex-wrap:wrap">
+          <button class="btn small primary" type="button" disabled style="opacity:.7; cursor:default">Start 10-min review</button>
+          <button class="btn small" type="button" disabled style="opacity:.5; cursor:default">Remind me at 17:30</button>
+        </div>
+        <p class="hero-note" style="margin-top:12px">Mocks from the phase-2 experience — visible as previews in the demo.</p>
+      </div>
+      <div class="card">
+        <span class="badge accent" style="margin-bottom:12px">guided tour · preview question</span>
+        <h3 style="margin-top:10px">"A user hits Pay with an empty cart. What does <code>normalizeCart</code> return?"</h3>
+        <p style="margin-bottom:14px">A prediction question in the middle of a 3-step tour of the change. Answer wrong and nothing is recorded — the tour just explains, and moves on.</p>
+        <p class="hero-note">Tours never produce a score. They exist to rebuild understanding, not to grade it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== PRIVACY ============================== -->
+<section id="privacy">
+  <div class="container">
+    <p class="section-kicker">The red line</p>
+    <h2>This must never become a surveillance tool</h2>
+    <p class="section-sub">
+      This is the biggest product risk, so it's baked into the architecture from day one — not just the
+      marketing copy. If engineers believe their "understanding score" feeds performance reviews, teams
+      will revolt and game the signals (hello, slow-motion approving). So:
+    </p>
+    <div class="grid-3">
+      <div class="card">
+        <span class="card-icon">🔒</span>
+        <h3>Individual data is visible only to the individual</h3>
+        <p>Your per-module understanding scores are yours. Nobody else can see them — not your lead, not HR, not in any export.</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">📊</span>
+        <h3>Managers see aggregates, at module level</h3>
+        <p>"Payments is orphaned." "Ledger is down to one person." Coverage, trends, and risk — never individual scores, never rankings.</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">🛡️</span>
+        <h3>Trust is the go-to-market</h3>
+        <p>The constraint is a selling point: teams accept the tool because it can't be used against them. Signals stay honest precisely because nobody is graded.</p>
+      </div>
+    </div>
+    <blockquote class="callout teal" style="margin-top:28px">
+      <p class="quote">A manager sees "Payments is orphaned" — never "Maya doesn't understand Payments."</p>
+    </blockquote>
+  </div>
+</section>
+
+<!-- ============================== ROADMAP ============================== -->
+<section id="roadmap">
+  <div class="container">
+    <p class="section-kicker">Roadmap &amp; honesty</p>
+    <h2>Ship the passive half first. Prove the problem is real.</h2>
+    <div class="card" style="padding: 8px 26px; margin-bottom: 28px;">
+      <div class="phase">
+        <div class="ph-tag">Phase 1 · MVP<br><span class="badge green" style="margin-top:6px">this demo</span></div>
+        <div>
+          <h3>Passive signals + heatmap + weekly report</h3>
+          <p>No questions for engineers, no interactivity, no friction on first contact. If the weekly report alone makes leads think, the problem is real.</p>
+          <ul>
+            <li>Signal ingestion from GitHub (PRs, reviews, commits, incidents)</li>
+            <li>Understanding model with time decay &amp; agent-rewrite erosion</li>
+            <li>Coverage heatmap, orphan &amp; risky-merge alerts, weekly lead report</li>
+          </ul>
+        </div>
+      </div>
+      <div class="phase">
+        <div class="ph-tag">Phase 2</div>
+        <div>
+          <h3>Interactive understanding repair</h3>
+          <p>The "so what do we do" layer — without it, leads drift away after a few weeks.</p>
+          <ul>
+            <li>Interactive review tours after heavy agent PRs (prediction questions, no scoring)</li>
+            <li>On-call readiness briefings and stale-zone refreshers</li>
+            <li>Auto-generated guided tours for orphaned modules · "explain in your own words" checks</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <blockquote class="callout">
+      <p class="quote">Honesty box: understanding can't be measured directly. Every signal here is an estimate. Grasp is a <strong>risk indicator</strong>, not a mind reader — and it says so on the box.</p>
+      <p class="src">Precision theater would destroy trust with exactly the teams this is built for.</p>
+    </blockquote>
+  </div>
+</section>
+
+<!-- ============================== PRICING ============================== -->
+<section id="pricing">
+  <div class="container">
+    <p class="section-kicker">Pricing</p>
+    <h2>Priced per developer, because value scales with team size</h2>
+    <p class="section-sub">
+      Built for engineering organizations where agent usage is serious and operational risk is expensive —
+      fintech, health, infrastructure, anywhere downtime has a price tag.
+    </p>
+    <div class="price-grid">
+      <div class="card price-card">
+        <span class="badge">Free</span>
+        <div class="amount">$0</div>
+        <p>Open source &amp; small teams</p>
+        <ul>
+          <li>Up to 5 developers</li>
+          <li>Full passive signal engine</li>
+          <li>Coverage map &amp; weekly report</li>
+        </ul>
+        <a class="btn ghost" href="#validate">Start with the script</a>
+      </div>
+      <div class="card price-card featured">
+        <span class="badge accent">Team</span>
+        <div class="amount">$12 <small>/ developer / month</small></div>
+        <p>For teams living on agents</p>
+        <ul>
+          <li>Unlimited repos &amp; modules</li>
+          <li>Incident &amp; erosion tracking</li>
+          <li>Weekly lead report &amp; alerts</li>
+          <li>Individual privacy guarantees enforced server-side</li>
+        </ul>
+        <a class="btn primary" href="demo.html">See it working</a>
+      </div>
+      <div class="card price-card">
+        <span class="badge">Enterprise</span>
+        <div class="amount">Custom</div>
+        <p>Regulated &amp; large orgs</p>
+        <ul>
+          <li>SSO / SCIM, audit logs</li>
+          <li>Self-hosted deployment</li>
+          <li>Custom signal sources (GitLab, incident tools)</li>
+          <li>Understanding-debt consulting</li>
+        </ul>
+        <a class="btn ghost" href="#faq">Talk to us</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== VALIDATE ============================== -->
+<section id="validate">
+  <div class="container">
+    <p class="section-kicker">Step zero — before building anything</p>
+    <h2>Run the validation script on a real repo. Then ask one question.</h2>
+    <p class="section-sub">
+      The whole thesis rests on one measurable signal: <strong>large PRs approved suspiciously fast.</strong>
+      This repo ships a script that measures exactly that on any GitHub repository — including active open-source
+      repos that use agents heavily.
+    </p>
+    <div class="codeblock">
+<span class="cmt"># measure the signal on any repo (uses GITHUB_TOKEN or your `gh` login)</span><br>
+<span class="cmd">npx @davoudnsr/grasp-cli validate</span> owner/repo <span class="flag">--since</span>=2026-04-01 <span class="flag">--min-lines</span>=800 <span class="flag">--max-minutes</span>=60<br>
+<br>
+<span class="cmt"># then map who understands what, and open the dashboard on your own data</span><br>
+<span class="cmd">npx @davoudnsr/grasp-cli analyze</span> owner/repo <span class="flag">--open</span><br>
+<br>
+<span class="cmt"># what you get:</span><br>
+<span class="cmt">#   · what % of recently merged lines landed via big, fast-approved PRs</span><br>
+<span class="cmt">#   · what share of merges show agent markers (trailers, branches, bot accounts)</span><br>
+<span class="cmt">#   · the top offenders table — PR number, size, minutes-to-approve</span>
+    </div>
+    <blockquote class="callout" style="margin-top:26px">
+      <p class="quote">Then show the number to a few engineering leaders and ask: <strong>"Does this number worry you?"</strong></p>
+      <p class="src">Their reaction is worth more than any market analysis. If the number makes them think, the problem is real.</p>
+    </blockquote>
+  </div>
+</section>
+
+<!-- ============================== FAQ ============================== -->
+<section id="faq">
+  <div class="container">
+    <p class="section-kicker">FAQ</p>
+    <h2>The questions you're already thinking</h2>
+    <details>
+      <summary>Isn't this just surveillance with extra steps?</summary>
+      <div class="faq-body">No — and that's enforced, not promised. Individual scores are visible only to the individual. Managers see module-level aggregates only: coverage counts, trends, orphan flags. There is no leaderboard, no per-person report to anyone, and the API physically cannot return one. If that guarantee ever breaks, the product deserves to die.</div>
+    </details>
+    <details>
+      <summary>How accurate can this really be?</summary>
+      <div class="faq-body">Honest answer: it's an estimate. Understanding isn't directly observable — but its fingerprints are (deliberate edits, substantive reviews, proportionate read time, incident debugging). Grasp combines them into a risk indicator with known limitations, and presents it as one. Teams that expect a scoreboard will be disappointed; that's intentional.</div>
+    </details>
+    <details>
+      <summary>What does a team do with it — just stare at red cells?</summary>
+      <div class="faq-body">That's the "now what" risk, and it's why phase 2 exists: guided tours for orphaned modules, on-call refreshers, pairing suggestions, merge-protection recommendations. The MVP deliberately proves demand first; the repair layer is where retention lives.</div>
+    </details>
+    <details>
+      <summary>Does it need an LLM? What does it cost to run?</summary>
+      <div class="faq-body">Most of the value — passive signals, scoring, coverage, alerts, the map — needs no LLM and runs cheap on plain event data. The LLM only enters in phase 2: generating tour steps and comparing free-form explanations against actual code behavior.</div>
+    </details>
+    <details>
+      <summary>GitHub only?</summary>
+      <div class="faq-body">The MVP is a GitHub App (webhooks for PRs, reviews, commits). GitLab, incident-tool integrations (PagerDuty, Opsgenie) and CI signals are on the roadmap — the engine is source-agnostic by design.</div>
+    </details>
+    <details>
+      <summary>What about gaming — people slow-walking approvals?</summary>
+      <div class="faq-body">Individual scores aren't visible to managers, so there's no incentive to fake them. And Grasp's "deliberately not counted" list — lines written, commit counts, activity volume — removes the usual vanity metrics that reward noise over comprehension.</div>
+    </details>
+  </div>
+</section>
+
+<footer>
+  <div class="container cols">
+    <div>
+      <div class="brand" style="font-size:16px">
+        <svg class="mark" style="width:22px;height:22px" viewBox="0 0 32 32"><path d="M16 5a11 11 0 1 0 11 11" stroke="#2dd4bf" stroke-width="3" fill="none" stroke-linecap="round"/><circle cx="16" cy="16" r="4" fill="#2dd4bf"/><circle cx="27" cy="16" r="2.4" fill="#2dd4bf"/></svg>
+        Grasp
+      </div>
+      <p style="max-width:380px; margin-top:10px">Understanding debt, made visible. A concept product — "Grasp" is a working title. The demo's team, repo and history are simulated; the engine is real.</p>
+    </div>
+    <div>
+      <p style="margin:0 0 8px"><a href="demo.html">Live demo</a></p>
+      <p style="margin:0 0 8px"><a href="#validate">Validation script</a></p>
+      <p style="margin:0"><a href="#privacy">Privacy model</a></p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

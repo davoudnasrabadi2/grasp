@@ -1,0 +1,4 @@
+node_modules/
+.grasp/
+*.tgz
+.DS_Store
